@@ -52,6 +52,7 @@ contract AuctionList {
     }
   }
 
+  // Removes from the list all auctions that have been completed
   function removeCompleted() public {
     address current = head;
     address previous = current;
