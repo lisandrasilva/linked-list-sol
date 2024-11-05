@@ -4,6 +4,8 @@ regen                      = true
 rekompile                  = true
 verbose                    = false
 debug                      = false
+require                    = 'test/list-lemmas.k'
+module-import              = 'AuctionListTest:LIST-LEMMAS'
 ast                        = true
 auxiliary-lemmas           = true
 
