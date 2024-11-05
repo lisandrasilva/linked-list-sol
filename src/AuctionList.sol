@@ -8,7 +8,7 @@ contract AuctionList {
   type Timestamp is uint256;
 
   struct AuctionNode{
-    Timestamp end;
+    uint256 end;
     address next;
   }
 
@@ -18,7 +18,7 @@ contract AuctionList {
   constructor(){}
 
   // Sorted by auction address
-  function insertSorted(address auction, Timestamp end) public {
+  function insertSorted(address auction, uint256 end) public {
     address current = head;
     address previous = current;
 
@@ -60,7 +60,7 @@ contract AuctionList {
     while(current != NULL_NODE) {
       address next = auctions[current].next;
 
-      if (block.timestamp > Timestamp.unwrap(auctions[current].end)) {
+      if (block.timestamp > auctions[current].end) {
         // Remove the completed auction
         if (current == head) {
           head = next;

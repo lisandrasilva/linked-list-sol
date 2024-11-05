@@ -23,7 +23,7 @@ contract AuctionListTest is AuctionList, Test, KontrolCheats {
             address auction = kevm.freshAddress();
             vm.assume(auction != address(0));
             vm.assume(auction > previous);
-            Timestamp end = Timestamp.wrap(freshUInt256());
+            uint256 end = freshUInt256();
 
             if (previous == NULL_NODE)
                 head = auction;
@@ -57,19 +57,22 @@ contract AuctionListTest is AuctionList, Test, KontrolCheats {
         address current = head;
 
         while(current != NULL_NODE) {
-            assert(block.timestamp < Timestamp.unwrap(auctions[current].end));
+            assert(block.timestamp < auctions[current].end);
             current = auctions[current].next;
         }
     }
 
     // Test that the insert function preserves the sortdness of the list
-    function testInsertSorted(address auction, Timestamp end) public {
+    function testInsertSorted(address auction, uint256 end) public {
         _assertSorted();
 
         vm.assume(auction != address(0));
         insertSorted(auction, end);
 
         _assertSorted();
+
+        // Is this enough to prove that the insertSorted function obbeys its specification?
+        // The function is not correctly implemented, it is necessary to complete the test to spot the bug
     }
 
     function testRemoveCompleted() public {
@@ -78,7 +81,9 @@ contract AuctionListTest is AuctionList, Test, KontrolCheats {
         removeCompleted();
 
         _assertSorted();
-        // Now this property should hold
+
+        // If the removeCompleted function is correctly implemented this property should hold after its exections.
+        // But it is not holding. Can you see why?
         _assertNoCompletedAuctions();
     }
 
